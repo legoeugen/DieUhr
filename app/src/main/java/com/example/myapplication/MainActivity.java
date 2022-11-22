@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
 
         GetDate();
 
-        GetCurrentLessonTest(9,30,true);
+        //GetCurrentLessonTest(9,30,true);
 
         t1.start();
     }
