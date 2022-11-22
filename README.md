@@ -11,6 +11,8 @@
 100% Baumwolle
 
 
-#DieUhr:
+DIE UHR:
 
 ![Die Uhr image](https://cdn.discordapp.com/attachments/690247858099978344/1044684006496673792/DieUhr.PNG)
+
+//example image
