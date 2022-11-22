@@ -1,0 +1,6 @@
+Sport,GH
+Sport,GH
+GK,311
+Mathe,215
+Deutsch,17
+Geschichte,317

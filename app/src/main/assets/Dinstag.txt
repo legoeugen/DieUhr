@@ -1,0 +1,6 @@
+WTH,009
+WTH,009
+Englisch,118
+Deutsch,19
+Mathe,215
+Physik,210
