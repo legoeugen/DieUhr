@@ -32,6 +32,15 @@
             android:textSize="50sp" />
 
         <TextView
+            android:id="@+id/current_Hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="53dp"
+            android:gravity="center"
+            android:text="7"
+            android:textSize="7sp"/>
+
+        <TextView
             android:id="@+id/Wochentag"
             android:layout_width="match_parent"
             android:layout_height="5mm"
@@ -123,6 +132,23 @@
             android:gravity="center"
             android:text="109"
             android:textSize="12sp" />
+
+        <View
+            android:id="@+id/NextHourDivider"
+            android:layout_marginLeft="91dp"
+            android:layout_width="10dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="63dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/next_Hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="63dp"
+            android:gravity="center"
+            android:text="8"
+            android:textSize="7sp"/>
 
     </FrameLayout>
 

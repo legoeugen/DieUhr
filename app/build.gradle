@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdk 30
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -34,4 +34,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.wear:wear:1.2.0'
     implementation files('libs\\aspose-pdf-22.10-jdk16.jar')
+
+    //implementation group: 'org.asynchttpclient', name: 'async-http-client', version: '2.0.7'
 }

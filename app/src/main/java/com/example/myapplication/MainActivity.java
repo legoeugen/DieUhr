@@ -1,18 +1,31 @@
 package com.example.myapplication;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.os.StrictMode;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+//import androidx.core.app.ActivityCompat;
+//import androidx.core.content.ContextCompat;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,30 +33,37 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
     private TextView WochentagText;
     private TextView ZeitText;
     private TextView CurrentLessonText;
+    private TextView CurrentHourText;
     private TextView CurrentRoomText;
     private TextView LessonStartText;
     private TextView LessonEndText;
     private TextView NextLessonText;
     private TextView NextRoomText;
     private TextView NextTextText;
+    private TextView NextHourText;
 
     private ProgressBar LessonProgressBar;
 
-    private View LessonDivider;
+    private View NextLessonDivider;
+    private View NextHourDivider;
 
     private int hour;
     private int min;
     private int sek;
 
     final static String[] DAYS = {
-            "Montag","Dinstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"
+            "Sonntag","Montag","Dinstag","Mittwoch","Donerstag","Freitag","Samstag"
     };
+
+    //private int day;
 
     String currentLessonplan;
 
@@ -55,9 +75,15 @@ public class MainActivity extends Activity {
     private String StartTime;
     private String EndTime;
 
+    private String TimeToDownloadPlan = "23:49:00";
+
+    private Calendar mCalendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mCalendar = Calendar.getInstance();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -67,45 +93,35 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        WochentagText = (TextView) findViewById(R.id.Wochentag);
-        ZeitText = (TextView) findViewById(R.id.Zeit);
-        CurrentLessonText = (TextView) findViewById(R.id.Lesson);
-        CurrentRoomText = (TextView) findViewById(R.id.current_Room);
-        LessonStartText = (TextView) findViewById(R.id.LessonStart);
-        LessonEndText = (TextView) findViewById(R.id.LessonEnd);
-        NextLessonText = (TextView) findViewById(R.id.NextLesson);
-        NextRoomText = (TextView) findViewById(R.id.NextRoom);
-        LessonProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        LessonDivider = (View) findViewById(R.id.NextLessonDivider);
-        NextTextText = (TextView) findViewById(R.id.NextText);
+        WochentagText = findViewById(R.id.Wochentag);
+        ZeitText = findViewById(R.id.Zeit);
+        CurrentLessonText = findViewById(R.id.Lesson);
+        CurrentHourText = findViewById(R.id.current_Hour);
+        CurrentRoomText = findViewById(R.id.current_Room);
+        LessonStartText = findViewById(R.id.LessonStart);
+        LessonEndText = findViewById(R.id.LessonEnd);
+        NextLessonText = findViewById(R.id.NextLesson);
+        NextRoomText = findViewById(R.id.NextRoom);
+        LessonProgressBar = findViewById(R.id.progressBar);
+        NextLessonDivider = findViewById(R.id.NextLessonDivider);
+        NextHourDivider = findViewById(R.id.NextHourDivider);
+        NextTextText = findViewById(R.id.NextText);
+        NextHourText = findViewById(R.id.next_Hour);
 
         GetDate();
 
-        GetCurrentLessonTest(9,30,true);
+        //GetCurrentLessonTest(7,35,true);
+        AutoDownloadTimer();
+        DownloadPlan();
 
         t1.start();
     }
 
     private void GetDate(){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-        String[] dates = sdf.format(date).split("/");
-        int d = Integer.parseInt(dates[0]);
-        int m = Integer.parseInt(dates[1]);
-        int y = Integer.parseInt(dates[2]);
+        int day = mCalendar.get(Calendar.DAY_OF_WEEK);
 
-        if (m < 3){
-            m += 12;
-            y -= 1;
-        }
-
-        int k = y % 100;
-        int j = y / 100;
-
-        int day = ((d + (((m + 1) * 26) / 10) + k + (k / 4) + (j / 4)) % 7);
-
-        WochentagText.setText(DAYS[day]);
-        SetCurrentLessonplan(DAYS[day]);
+        WochentagText.setText(DAYS[day - 1]);
+        SetCurrentLessonplan(DAYS[day - 1]);
     }
 
     private void SetCurrentLessonplan(String day){
@@ -162,15 +178,19 @@ public class MainActivity extends Activity {
                     GetCurrentLessonTest(hour,min,true);
                 }
 
-                LessonProgressBar.setMax(Integer.parseInt(EndTime));
-                LessonProgressBar.setMin(Integer.parseInt(StartTime));
-                String timeForProgressBar;
-                if (min >= 10) {
-                    timeForProgressBar = hour + "" + min;
-                } else {
-                    timeForProgressBar = hour + "0" + min;
+                try {
+                    LessonProgressBar.setMax(Integer.parseInt(EndTime));
+                    LessonProgressBar.setMin(Integer.parseInt(StartTime));
+                    String timeForProgressBar;
+                    if (min >= 10) {
+                        timeForProgressBar = hour + "" + min;
+                    } else {
+                        timeForProgressBar = hour + "0" + min;
+                    }
+                    LessonProgressBar.setProgress(Integer.parseInt(timeForProgressBar));
+                }catch (Exception e){
+                    System.out.println("Keine start und/oder end zeit warscheinlich gegeben.");
                 }
-                LessonProgressBar.setProgress(Integer.parseInt(timeForProgressBar));
 
                 try {
                     t1.sleep(500);
@@ -257,6 +277,8 @@ public class MainActivity extends Activity {
                                 currentHour = 9;
                                 break;
                         }
+                        CurrentHourText.setText(currentHour);
+                        NextHourText.setText(currentHour + 1);
 
                         System.out.println("get current lesson and stuff with current hour: " + currentHour);
 
@@ -266,25 +288,25 @@ public class MainActivity extends Activity {
                         try {
                             currentLesson = dayLessons.get(currentHour - 1);
                             System.out.println("current Lesson: " + currentLesson.Lesson);
-                            LessonDivider.setVisibility(View.VISIBLE);
+                            NextLessonDivider.setVisibility(View.VISIBLE);
                             NextTextText.setVisibility(View.VISIBLE);
 
                         }catch (Exception e){
                             System.out.println("keine lessons mehr");
                             UpdateUiEndOfSchool();
-                            LessonDivider.setVisibility(View.INVISIBLE);
+                            NextLessonDivider.setVisibility(View.INVISIBLE);
                             NextTextText.setVisibility(View.INVISIBLE);
                             return;
                         }
 
                         try{
                             nextLesson = dayLessons.get(currentHour);
-                            LessonDivider.setVisibility(View.VISIBLE);
+                            NextLessonDivider.setVisibility(View.VISIBLE);
                             NextTextText.setVisibility(View.VISIBLE);
                         } catch (Exception e){
                             System.out.println("Keine nächste/n stunde/n");
                             nextLesson = new Lesson("","");
-                            LessonDivider.setVisibility(View.INVISIBLE);
+                            NextLessonDivider.setVisibility(View.INVISIBLE);
                             NextTextText.setVisibility(View.INVISIBLE);
                         }
 
@@ -317,6 +339,8 @@ public class MainActivity extends Activity {
         LessonEndText.setText("");
         NextLessonText.setText("");
         NextRoomText.setText("");
+        NextLessonDivider.setVisibility(View.INVISIBLE);
+        NextHourDivider.setVisibility(View.INVISIBLE);
     }
 
     private void UpdateUI(String startTime,String endTime,String Lesson,String Room,String NextLesson,String NextRoom){
@@ -334,10 +358,70 @@ public class MainActivity extends Activity {
         CurrentLessonText.setText("Pause");
         CurrentRoomText.setText("Pause");
         CurrentRoomText.setTextSize(45);
-        LessonStartText.setText("");
-        LessonEndText.setText("");
-        NextLessonText.setText("");
-        NextRoomText.setText("");
+    }
+
+    private void AutoDownloadTimer(){
+        String[] result = TimeToDownloadPlan.split(":"); //23:10:00 => 23 && 10 && 00
+
+        Timer timer = new Timer();
+        Calendar date = Calendar.getInstance();
+        date.set(
+                Calendar.DAY_OF_WEEK,
+                Calendar.SATURDAY
+        );
+        date.set(Calendar.HOUR, Integer.parseInt(result[0]));
+        date.set(Calendar.MINUTE, Integer.parseInt(result[1]));
+        date.set(Calendar.SECOND, Integer.parseInt(result[2]));
+        date.set(Calendar.MILLISECOND, 0);
+        //timer.schedule( //TODO make this shit work (error in this line)
+        //        DownloadPlan(),
+        //        date.getTime(),
+        //        1000 * 60 * 60 * 24 * 7
+        //);
+    }
+
+    private TimerTask DownloadPlan(){
+        System.out.println("Download Plan!");
+        //TODO download plan
+
+
+
+        try {
+            File planFile = new File("Plan.pdf");
+
+            Thread thread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    try  {
+                        downloadFileFromURL("https://www.lessing-oberschule-schkeuditz.de/.cm4all/uproc.php/0/Vertretungspl%C3%A4ne%202022/01.12.%20Do%20Sch%C3%BCler.pdf?cdp=a&_=184c8615e21",planFile);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            thread.start();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void downloadFileFromURL(String urlString, File destination) {
+        try {
+            URL website = new URL(urlString);
+            ReadableByteChannel rbc;
+            rbc = Channels.newChannel(website.openStream());
+            FileOutputStream fos = new FileOutputStream(destination); //TODO: write permission
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            fos.close();
+            rbc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void Extract_Table() { //ToDo pdf tabelle extrahiren

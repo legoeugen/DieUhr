@@ -1,7 +1,7 @@
-Biologie,109
-Mathe,218
-Chemie,206
-Infomartik,214
+Mathe,215
+Biologie,106
 Musik,19
+Physik,215
 GK,311
-Religion,317
+Englisch,118
+Religion,115

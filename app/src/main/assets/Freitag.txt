@@ -1,6 +1,6 @@
-Chemie,206
-WTH,111
+Geografie,317
+Geschichte,317
 Englisch,118
-Physik,218
-Mathe,314
-Kunst,306
+Physik,314
+GK,310
+Mathe,215
