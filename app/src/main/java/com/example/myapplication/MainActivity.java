@@ -277,8 +277,8 @@ public class MainActivity extends Activity {
                                 currentHour = 9;
                                 break;
                         }
-                        CurrentHourText.setText(currentHour);
-                        NextHourText.setText(currentHour + 1);
+                        CurrentHourText.setText(Integer.toString(currentHour));
+                        NextHourText.setText(Integer.toString(currentHour + 1));
 
                         System.out.println("get current lesson and stuff with current hour: " + currentHour);
 
