@@ -1,6 +1,7 @@
 Sport,GH1
 Sport,GH1
-Mathe,218
+Mathe,210
 Info,214
 Deutsch,118
 Geschichte,317
+End,End

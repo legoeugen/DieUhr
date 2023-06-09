@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Die Uhr</string>
+    <string name="weekend">Wochenende</string>
+    <string name="end">Ende</string>
+</resources>
