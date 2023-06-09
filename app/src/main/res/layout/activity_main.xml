@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/box_inset_layout_padding"
+    tools:context=".MainActivity"
+    tools:deviceIds="wear">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/inner_frame_layout_padding"
+        app:layout_boxedEdges="all">
+
+        <TextView
+            android:id="@+id/Zeit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="57dp"
+            android:gravity="center"
+            android:text="13:47:42"/>
+
+        <TextView
+            android:id="@+id/current_Room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="114"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/current_Hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="53dp"
+            android:gravity="center"
+            android:text="7"
+            android:textSize="7sp"/>
+
+        <TextView
+            android:id="@+id/Wochentag"
+            android:layout_width="match_parent"
+            android:layout_height="5mm"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="-11dp"
+            android:gravity="center"
+            android:text="Montag"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_gravity="center"
+            android:max="100"
+            android:progress="90" />
+
+        <TextView
+            android:id="@+id/LessonStart"
+            android:layout_width="8mm"
+            android:layout_height="5mm"
+            android:layout_marginTop="62dp"
+            android:text="7:30"/>
+
+        <TextView
+            android:id="@+id/LessonEnd"
+            android:layout_width="8mm"
+            android:layout_height="5mm"
+            android:layout_marginTop="62dp"
+            android:layout_marginLeft="75dp"
+            android:gravity="end"
+            android:text="8:15"/>
+
+        <TextView
+            android:id="@+id/Lesson"
+            android:layout_width="66dp"
+            android:layout_height="5mm"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="55dp"
+            android:gravity="center"
+            android:text="Englisch" />
+
+        <TextView
+            android:id="@+id/NextText"
+            android:layout_width="131dp"
+            android:layout_height="5mm"
+            android:layout_marginTop="89dp"
+            android:gravity="center"
+            android:text="NEXT"
+            android:textSize="10sp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="120dp">
+
+        <View
+            android:layout_marginLeft="-6dp"
+            android:layout_width="51mm"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#202020" />
+
+        <TextView
+            android:id="@+id/NextLesson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:gravity="center"
+            android:text="Mathe"
+            android:textSize="20sp"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/NextLessonDivider"
+            android:layout_marginLeft="82dp"
+            android:layout_width="30dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="47dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/NextRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:text="109"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/NextHourDivider"
+            android:layout_marginLeft="91dp"
+            android:layout_width="10dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="63dp"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/next_Hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="63dp"
+            android:gravity="center"
+            android:text="8"
+            android:textSize="7sp"/>
+
+    </FrameLayout>
+
+
+</androidx.wear.widget.BoxInsetLayout>

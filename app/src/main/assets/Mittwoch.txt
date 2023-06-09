@@ -1,0 +1,8 @@
+Mathe,215
+Biologie,106
+Musik,19
+Physik,215
+GK,311
+Englisch,118
+Religion,115
+End,End

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Die Uhr</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="weekend">Weekend</string>
+    <string name="end">End</string>
+</resources>
