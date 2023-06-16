@@ -91,7 +91,7 @@ public class MainActivity extends Activity
     private final String testday = "Montag"; //Days: Sonntag, Montag, Dinstag, Mittwoch, Donerstag, Freitag, Samstag
     private boolean testTimeTick = false;
     private final int testHour = 10;
-    private final int testMin = 10;
+    private final int testMin = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -350,38 +350,25 @@ public class MainActivity extends Activity
                     String currentTime = HourString + ":" + MinString + ":" + SekString;
 
                     System.out.println("x Time:" + x.getTime());
-                    if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
+                    if (x.after(calendar1.getTime()) && x.before(calendar2.getTime()))
+                    {
                         //checks whether the current time is between two times.
 
                         System.out.println("In between to times");
 
-                        currentLesson = dayLessons.get(Integer.toString(lineCount));
-                        currentHour = lineCount;
-
-                        Lesson nextLesson;
-                        if (dayLessons.containsKey(Integer.toString(lineCount+1)))
-                            nextLesson = dayLessons.get(Integer.toString(lineCount+1));
-                        else
-                            nextLesson = new Lesson("","");
-
-                        assert nextLesson != null;
-                        SetTextLesson(result[0],result[1],nextLesson.Lesson,nextLesson.Room);
-
-                        inSchool = true;
-
-                        String nextLine = reader.readLine();
-                        System.out.println("nextLine: " + nextLine);
-
-                        String[] nextLineResult = nextLine.split("-");
-                        String nextDate = nextLineResult[0] + ":59";
-                        Date nextLineTime = new SimpleDateFormat("HH:mm:ss").parse(nextDate);
-                        NextTimeReloadCurrentLesson.setTime(nextLineTime);
-                        NextTimeReloadCurrentLesson.add(Calendar.DATE, 1);
+                        SetCurrentLesson(lineCount,line,result,reader,true);
 
                         System.out.println("Time: " + currentTime + " in between: " + string1 + "-" + string2 + "! Stunde:" + lineCount + "! Fach: " + currentLesson.Lesson + "! Next Reload Time: " + NextTimeReloadCurrentLesson.getTime() + "!");
                         return;
                     }
+                    else if (x.before(calendar1.getTime()))
+                    {
+                        System.out.println("Line after time");
+                        SetCurrentLesson(lineCount,line,result,reader,false);
+                        return;
+                    }
                     else {
+                        System.out.println("could not find line to use;");
                         lineCount++; //Goes to the next line with 1 added to the lineCount
                     }
                     //When no correct time is found in all lines of the hour data
@@ -400,6 +387,43 @@ public class MainActivity extends Activity
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void SetCurrentLesson(int lineCount,String currentLine,String[] result,BufferedReader reader,Boolean NextTimeReloadUseNextLine)
+    {
+        try
+        {
+            currentLesson = dayLessons.get(Integer.toString(lineCount));
+            currentHour = lineCount;
+
+            Lesson nextLesson;
+            if (dayLessons.containsKey(Integer.toString(lineCount+1)))
+                nextLesson = dayLessons.get(Integer.toString(lineCount+1));
+            else
+                nextLesson = new Lesson("","");
+
+            assert nextLesson != null;
+            SetTextLesson(result[0],result[1],nextLesson.Lesson,nextLesson.Room);
+
+            inSchool = true;
+
+            String nextLine = reader.readLine();
+            System.out.println("nextLine: " + nextLine);
+
+            String[] lineResult;
+            if (NextTimeReloadUseNextLine)
+                lineResult = nextLine.split("-");
+            else
+                lineResult = currentLine.split("-");
+
+            String nextDate = lineResult[0] + ":59";
+            Date lineTime = new SimpleDateFormat("HH:mm:ss").parse(nextDate);
+            NextTimeReloadCurrentLesson.setTime(lineTime);
+            NextTimeReloadCurrentLesson.add(Calendar.DATE, 1);
+
         }catch (Exception e){
             e.printStackTrace();
         }

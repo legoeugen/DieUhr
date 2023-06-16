@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="114"
+            android:text="[F]"
             android:textSize="50sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="53dp"
             android:gravity="center"
-            android:text="7"
+            android:text="F"
             android:textSize="7sp"/>
 
         <TextView
@@ -56,14 +56,14 @@
             android:layout_height="62dp"
             android:layout_gravity="center"
             android:max="100"
-            android:progress="90" />
+            android:progress="0" />
 
         <TextView
             android:id="@+id/LessonStart"
             android:layout_width="8mm"
             android:layout_height="5mm"
             android:layout_marginTop="62dp"
-            android:text="7:30"/>
+            android:text="[F]"/>
 
         <TextView
             android:id="@+id/LessonEnd"
@@ -72,7 +72,7 @@
             android:layout_marginTop="62dp"
             android:layout_marginLeft="75dp"
             android:gravity="end"
-            android:text="8:15"/>
+            android:text="[F]"/>
 
         <TextView
             android:id="@+id/Lesson"
@@ -81,7 +81,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="55dp"
             android:gravity="center"
-            android:text="Englisch" />
+            android:text="[F]" />
 
         <TextView
             android:id="@+id/NextText"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
             android:gravity="center"
-            android:text="Mathe"
+            android:text="[F]"
             android:textSize="20sp"
             android:visibility="visible" />
 
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:gravity="center"
-            android:text="109"
+            android:text="[F]"
             android:textSize="12sp" />
 
         <View
@@ -147,7 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="63dp"
             android:gravity="center"
-            android:text="8"
+            android:text="[F]"
             android:textSize="7sp"/>
 
     </FrameLayout>
